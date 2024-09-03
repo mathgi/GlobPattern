@@ -9,27 +9,32 @@ namespace UnitTestProjectGlobPattern
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.IsTrue(Parser.IsMatch("ABC", "ABC"));
-            Assert.IsFalse(Parser.IsMatch("ABC", "ABD"));
+            var p1 = new Parser();
+            Assert.IsTrue(p1.IsMatch("ABC", "ABC"));
+            Assert.IsFalse(p1.IsMatch("ABC", "ABD"));
 
-            Assert.IsTrue(Parser.IsMatch("ABC", "AB*"));
-            Assert.IsTrue(Parser.IsMatch("ABCD", "AB*"));
-            Assert.IsTrue(Parser.IsMatch("AB", "AB*"));
+            Assert.IsTrue(p1.IsMatch("ABC", "AB*"));
+            Assert.IsTrue(p1.IsMatch("ABCD", "AB*"));
+            Assert.IsTrue(p1.IsMatch("AB", "AB*"));
 
-            Assert.IsFalse(Parser.IsMatch("BC", "ABC"));
-            Assert.IsTrue(Parser.IsMatch("MBC", "?BC"));
-            Assert.IsFalse(Parser.IsMatch("MLBC", "?BC"));
+            Assert.IsFalse(p1.IsMatch("BC", "ABC"));
+            Assert.IsTrue(p1.IsMatch("MBC", "?BC"));
+            Assert.IsFalse(p1.IsMatch("MLBC", "?BC"));
 
-            Assert.IsTrue(Parser.IsMatch("MLBC", "*BC"));
+            Assert.IsTrue(p1.IsMatch("MLBC", "*BC"));
 
-            Assert.IsTrue(Parser.IsMatch("ABCE", "AB*"));
+            Assert.IsTrue(p1.IsMatch("ABCE", "AB*"));
 
-            Assert.IsTrue(Parser.IsMatch("ABC", "A[BJKLSF]C"));
-            Assert.IsTrue(Parser.IsMatch("A!C", "A[BJK!]C"));
-            Assert.IsFalse(Parser.IsMatch("ABC", "A[!B]C"));
+            Assert.IsTrue(p1.IsMatch("ABC", "A[BJKLSF]C"));
+            Assert.IsTrue(p1.IsMatch("A!C", "A[BJK!]C"));
+            Assert.IsFalse(p1.IsMatch("ABC", "A[!B]C"));
 
-            Assert.IsFalse(Parser.IsMatch("A[]C", "A*[]*C"));
-            Assert.IsFalse(Parser.IsMatch("ABC123n", "AT[274!]?Pp"));
+            Assert.IsFalse(p1.IsMatch("A[]C", "A*[]*C"));
+            Assert.IsFalse(p1.IsMatch("ABC123n", "AT[274!]?Pp"));
+
+            var p2 = new Parser((parsedInput, currentState) => parsedInput.Length <= 2);
+            Assert.IsTrue(p2.IsMatch("ABC", "ABC"));
+
         }
     }
 }
